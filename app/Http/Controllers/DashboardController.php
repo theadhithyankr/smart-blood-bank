@@ -95,4 +95,32 @@ class DashboardController extends Controller
 
         return view('dashboard.distribution', compact('issuedToday', 'pendingRequests', 'totalThisMonth'));
     }
+
+    public function donorRegistration(Request $request)
+    {
+        if ($request->user()->role !== 'admin') abort(403);
+        return view('dashboard.donor-registration');
+    }
+
+    public function bloodCollection(Request $request)
+    {
+        if ($request->user()->role !== 'admin') abort(403);
+        
+        $activeCamps = 3;
+        $donorsToday = 45;
+        $bagsCollected = 42;
+
+        return view('dashboard.blood-collection', compact('activeCamps', 'donorsToday', 'bagsCollected'));
+    }
+
+    public function temperature(Request $request)
+    {
+        if ($request->user()->role !== 'admin') abort(403);
+        
+        $activeSensors = 14;
+        $breachesToday = 0;
+        $averageTemp = 4.2;
+
+        return view('dashboard.temperature', compact('activeSensors', 'breachesToday', 'averageTemp'));
+    }
 }

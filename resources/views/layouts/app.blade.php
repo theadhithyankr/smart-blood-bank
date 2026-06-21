@@ -4,30 +4,20 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-
-        <title>Bagmo Tracker</title>
-
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <!-- Using Inter for a more premium SaaS feel -->
-        <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet" />
-
-        <!-- Scripts -->
+        <title>Bagmo — Blood Supply Chain</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased bg-slate-50 text-slate-800">
-        <div class="min-h-screen flex">
+    <body class="font-sans antialiased bg-grid bg-surface min-h-screen">
+        <div class="flex min-h-screen">
             <!-- Sidebar -->
             @include('layouts.sidebar')
 
-            <!-- Main Content Wrapper (offset by sidebar width on lg screens) -->
-            <div class="flex-1 flex flex-col min-h-screen lg:ml-64">
-                
-                <!-- Top Navigation/Header -->
+            <!-- Main -->
+            <div class="flex-1 flex flex-col min-h-screen lg:ml-60">
                 @include('layouts.navigation')
-
-                <!-- Page Content -->
-                <main class="flex-1">
+                <main class="flex-1 py-6 px-4 sm:px-6">
                     {{ $slot }}
                 </main>
             </div>

@@ -19,6 +19,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/admin/inventory', [DashboardController::class, 'inventory'])->name('admin.inventory');
         Route::get('/admin/testing', [DashboardController::class, 'testing'])->name('admin.testing');
         Route::get('/admin/distribution', [DashboardController::class, 'distribution'])->name('admin.distribution');
+        Route::get('/admin/donor-registration', [DashboardController::class, 'donorRegistration'])->name('admin.donor-registration');
+        Route::get('/admin/blood-collection', [DashboardController::class, 'bloodCollection'])->name('admin.blood-collection');
+        Route::get('/admin/temperature', [DashboardController::class, 'temperature'])->name('admin.temperature');
     });
 
     // Hospital routes

@@ -18,16 +18,18 @@
         </a>
 
         <!-- Donor Registration -->
-        <a href="#" class="flex items-center px-3 py-2.5 text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-lg group font-medium transition">
+        @php $isDonor = request()->routeIs('admin.donor-registration'); @endphp
+        <a href="{{ route('admin.donor-registration') }}" class="flex items-center px-3 py-2.5 {{ $isDonor ? 'bg-red-50 text-red-600 border-l-4 border-red-500' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }} rounded-lg group font-medium transition">
             <!-- Icon: User Add -->
-            <svg class="w-5 h-5 mr-3 text-slate-400 group-hover:text-slate-600 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
+            <svg class="w-5 h-5 mr-3 {{ $isDonor ? 'text-red-500' : 'text-slate-400 group-hover:text-slate-600' }} transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
             Donor Registration
         </a>
 
         <!-- Blood Collection -->
-        <a href="#" class="flex items-center px-3 py-2.5 text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-lg group font-medium transition">
+        @php $isCollection = request()->routeIs('admin.blood-collection'); @endphp
+        <a href="{{ route('admin.blood-collection') }}" class="flex items-center px-3 py-2.5 {{ $isCollection ? 'bg-red-50 text-red-600 border-l-4 border-red-500' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }} rounded-lg group font-medium transition">
             <!-- Icon: Blood Drop Outline -->
-            <svg class="w-5 h-5 mr-3 text-slate-400 group-hover:text-slate-600 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path></svg>
+            <svg class="w-5 h-5 mr-3 {{ $isCollection ? 'text-red-500' : 'text-slate-400 group-hover:text-slate-600' }} transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path></svg>
             Blood Collection
         </a>
 
@@ -56,9 +58,10 @@
         </a>
 
         <!-- Temperature -->
-        <a href="#" class="flex items-center px-3 py-2.5 text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-lg group font-medium transition">
+        @php $isTemperature = request()->routeIs('admin.temperature'); @endphp
+        <a href="{{ route('admin.temperature') }}" class="flex items-center px-3 py-2.5 {{ $isTemperature ? 'bg-red-50 text-red-600 border-l-4 border-red-500' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }} rounded-lg group font-medium transition">
             <!-- Icon: Thermometer -->
-            <svg class="w-5 h-5 mr-3 text-slate-400 group-hover:text-slate-600 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            <svg class="w-5 h-5 mr-3 {{ $isTemperature ? 'text-red-500' : 'text-slate-400 group-hover:text-slate-600' }} transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
             Temperature
         </a>
     </nav>
