@@ -55,4 +55,44 @@ class DashboardController extends Controller
 
         return view('dashboard.donor');
     }
+
+    public function inventory(Request $request)
+    {
+        if ($request->user()->role !== 'admin') abort(403);
+
+        $totalUnits = \App\Models\BloodBag::where('status', 'In Storage')->count();
+        $expiringSoonTotal = \App\Models\BloodBag::where('status', 'In Storage')->where('expiry_date', '<=', now()->addDays(7))->count();
+        
+        $stockByGroup = \App\Models\BloodBag::where('status', 'In Storage')
+            ->selectRaw('blood_group, count(*) as total')
+            ->groupBy('blood_group')
+            ->get()
+            ->pluck('total', 'blood_group');
+
+        return view('dashboard.inventory', compact('totalUnits', 'expiringSoonTotal', 'stockByGroup'));
+    }
+
+    public function testing(Request $request)
+    {
+        if ($request->user()->role !== 'admin') abort(403);
+        
+        // Dummy data for KPIs
+        $testsCompleted = 142;
+        $pendingTests = 14;
+        $safeUnits = 138;
+
+        return view('dashboard.testing', compact('testsCompleted', 'pendingTests', 'safeUnits'));
+    }
+
+    public function distribution(Request $request)
+    {
+        if ($request->user()->role !== 'admin') abort(403);
+
+        // Dummy data for KPIs
+        $issuedToday = 18;
+        $pendingRequests = 6;
+        $totalThisMonth = 342;
+
+        return view('dashboard.distribution', compact('issuedToday', 'pendingRequests', 'totalThisMonth'));
+    }
 }

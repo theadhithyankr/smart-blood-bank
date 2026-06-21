@@ -16,7 +16,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Admin routes
     Route::middleware('role:admin')->group(function () {
-        // Admin can manage everything
+        Route::get('/admin/inventory', [DashboardController::class, 'inventory'])->name('admin.inventory');
+        Route::get('/admin/testing', [DashboardController::class, 'testing'])->name('admin.testing');
+        Route::get('/admin/distribution', [DashboardController::class, 'distribution'])->name('admin.distribution');
     });
 
     // Hospital routes
