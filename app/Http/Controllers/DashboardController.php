@@ -123,4 +123,18 @@ class DashboardController extends Controller
 
         return view('dashboard.temperature', compact('activeSensors', 'breachesToday', 'averageTemp'));
     }
+    public function storeDispatch(Request $request)
+    {
+        if ($request->user()->role !== 'admin') abort(403);
+
+        $request->validate([
+            'hospital'   => 'required|string|max:255',
+            'blood_type' => 'required|in:O+,O-,A+,A-,B+,B-,AB+,AB-',
+            'units'      => 'required|integer|min:1|max:20',
+            'urgency'    => 'required|in:Normal,High,Critical',
+        ]);
+
+        return redirect()->route('admin.distribution')
+            ->with('success', "Dispatch request for {$request->units} unit(s) of {$request->blood_type} to {$request->hospital} created.");
+    }
 }

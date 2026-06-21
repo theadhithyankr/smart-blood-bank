@@ -1,58 +1,242 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<div align="center">
+  <img src="public/images/bagmo-logo.png" height="60" alt="Bagmo Logo" />
+  <h1>Bagmo — Smart Blood Bank Supply Chain</h1>
+  <p><strong>A production-ready IoT medical logistics platform built with Laravel 12 &amp; SQLite</strong></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+  <p>
+    <img src="https://img.shields.io/badge/Laravel-12.x-FF2D20?style=flat-square&logo=laravel&logoColor=white" />
+    <img src="https://img.shields.io/badge/PHP-8.2+-777BB4?style=flat-square&logo=php&logoColor=white" />
+    <img src="https://img.shields.io/badge/SQLite-Native-003B57?style=flat-square&logo=sqlite&logoColor=white" />
+    <img src="https://img.shields.io/badge/TailwindCSS-3.x-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" />
+    <img src="https://img.shields.io/badge/Alpine.js-3.x-8BC0D0?style=flat-square&logo=alpinedotjs&logoColor=white" />
+    <img src="https://img.shields.io/badge/License-MIT-22C55E?style=flat-square" />
+  </p>
+</div>
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Live Demo
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+![Bagmo App Demo](public/demo/app-demo.webp)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+> *Full navigation through all 7 modules — recorded live from a running instance.*
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Overview
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Bagmo** is a full-stack, multi-role web application that models the complete lifecycle of blood units in a modern blood bank supply chain — from donor registration through pathogen screening, cold-chain IoT monitoring, and final dispatch to hospitals.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+The system is architected around three core technical concerns:
 
-## Agentic Development
+| Concern | Implementation |
+|---|---|
+| **IoT Sensor Processing** | Real-time temperature monitoring dashboard with per-refrigerator status (Optimal / Warning / Breached) |
+| **Compliance Validation** | Server-side dispatch safety gates preventing unsafe blood bag release via Laravel validation |
+| **FIFO Stock Optimization** | Blood bags ordered by expiry date; oldest bags surfaced first for dispatch |
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+---
+
+## Screenshots
+
+| Dashboard Overview | Screening Lab |
+|:---:|:---:|
+| ![Dashboard](public/demo/01-dashboard.png) | ![Screening](public/demo/04-screening.png) |
+
+| Inventory Management | IoT Sensor Monitoring |
+|:---:|:---:|
+| ![Inventory](public/demo/05-inventory.png) | ![IoT Sensors](public/demo/07-iot-sensors.png) |
+
+| Distribution Dispatch | Blood Collection |
+|:---:|:---:|
+| ![Distribution](public/demo/06-distribution.png) | ![Collection](public/demo/03-collection.png) |
+
+| Donor Registry |
+|:---:|
+| ![Donor Registry](public/demo/02-donor-registry.png) |
+
+---
+
+## Features
+
+### 🩸 Core Modules
+- **Dashboard Overview** — Live KPI strip (stock, expiring bags, active requests), blood inventory table with bar-chart level indicators, blood group distribution, and PRBC expiry alerts with Reserve / Discard actions.
+- **Donor Registry** — Full registration form with server-side validation, medical eligibility checklist, flash messages, and `old()` repopulation on errors.
+- **Blood Collection** — Tracks live collection sessions with RFID tag assignment. Inline "Details" modal shows donor vitals (pulse, BP, volume drawn).
+- **Screening Lab** — Pathogen results table (HIV, HBsAg, HCV, Syphilis, Malaria) with visual pass/fail icons and bag-level status badges.
+- **Inventory Management** — Per-blood-group stock cards with dynamic level bars. Cards turn red with a "Critical" badge when units fall below threshold.
+- **Distribution** — Dispatch queue with Active / History tab toggle (Alpine.js). "New Dispatch" modal POSTs a validated request to the server.
+- **IoT Sensors** — Live temperature grid for 8+ refrigerators with status-coded cards (green/amber/red). "Log →" modal shows the last 3 temperature readings per unit.
+
+### 🔐 Authentication & Authorization
+- Laravel Breeze-powered authentication (register, login, email verification, password reset).
+- Custom `RoleMiddleware` enforcing `admin`, `hospital`, and `donor` roles on all routes.
+- Database-seeded admin, hospital, and donor accounts.
+
+### 🏗 Architecture
+- **MVC** — Business logic entirely in Controllers, zero logic in views or routes.
+- **Eloquent ORM** — No raw SQL; all queries via model relationships.
+- **Request Validation** — All form inputs validated before hitting the model layer.
+- **REST API** — BloodBag sensor update API (`POST /api/blood-bags/{rfid}/sensor-update`) for IoT device integration.
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Laravel 12 (PHP 8.2+) |
+| Database | SQLite (default, zero-config) |
+| Frontend CSS | Tailwind CSS 3 with custom design system |
+| Frontend JS | Alpine.js 3 (modals, tab toggles, flash dismissal) |
+| Auth | Laravel Breeze |
+| Build | Vite |
+
+---
+
+## Quick Start
+
+### Prerequisites
+- PHP 8.2+
+- Composer
+- Node.js 18+
+
+### Installation
 
 ```bash
-composer require laravel/boost --dev
+# 1. Clone the repository
+git clone https://github.com/your-username/smart-blood-bank.git
+cd smart-blood-bank
 
-php artisan boost:install
+# 2. Install PHP dependencies
+composer install
+
+# 3. Install Node dependencies
+npm install
+
+# 4. Copy environment file
+cp .env.example .env
+
+# 5. Generate application key
+php artisan key:generate
+
+# 6. Run database migrations and seed
+php artisan migrate --seed
+
+# 7. Start the development servers (two terminals)
+php artisan serve
+npm run dev
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Then open **http://127.0.0.1:8000** in your browser.
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Default Credentials
 
-## Code of Conduct
+| Role | Email | Password |
+|---|---|---|
+| **Admin** | `admin@bloodbank.com` | `password` |
+| **Hospital** | `hospital@bloodbank.com` | `password` |
+| **Donor** | `donor@bloodbank.com` | `password` |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## API Reference
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+The REST API is available for IoT device integration:
+
+### Update Sensor Reading
+```http
+POST /api/blood-bags/{rfid}/sensor-update
+Content-Type: application/json
+
+{
+  "temperature_celsius": 4.2
+}
+```
+
+**Response 200 — OK:**
+```json
+{
+  "message": "Sensor data recorded.",
+  "bag_rfid": "BB2026001",
+  "status": "In Storage",
+  "temperature_breached": false
+}
+```
+
+**Response 422 — Temperature Breach:**
+```json
+{
+  "message": "Temperature breach detected. Bag flagged.",
+  "temperature_breached": true
+}
+```
+
+---
+
+## Project Structure
+
+```
+smart-blood-bank/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── DashboardController.php      # All dashboard page logic
+│   │   │   ├── BloodBagController.php        # FIFO dispatch API
+│   │   │   ├── BloodBagActionController.php  # Reserve / Discard / Export
+│   │   │   ├── AdminDonorController.php      # Donor registration
+│   │   │   └── BloodRequestController.php    # Hospital requests
+│   │   └── Middleware/
+│   │       └── RoleMiddleware.php
+│   └── Models/
+│       ├── BloodBag.php
+│       ├── BloodRequest.php
+│       └── Donation.php
+├── database/
+│   ├── migrations/
+│   └── seeders/
+│       └── UserSeeder.php
+├── resources/
+│   ├── css/app.css                          # Custom dark design system
+│   └── views/
+│       ├── layouts/
+│       │   ├── app.blade.php
+│       │   ├── sidebar.blade.php
+│       │   └── navigation.blade.php
+│       └── dashboard/
+│           ├── admin.blade.php
+│           ├── inventory.blade.php
+│           ├── testing.blade.php
+│           ├── distribution.blade.php
+│           ├── blood-collection.blade.php
+│           ├── donor-registration.blade.php
+│           └── temperature.blade.php
+└── routes/
+    ├── web.php
+    └── api.php
+```
+
+---
+
+## Design System
+
+The UI uses a **custom dark-first design system** built on top of Tailwind CSS with bespoke tokens:
+
+| Token | Value | Purpose |
+|---|---|---|
+| `surface.DEFAULT` | `#0f1117` | Page background |
+| `surface.card` | `#171b26` | Card / panel background |
+| `surface.border` | `#252a3a` | Dividers and borders |
+| `brand.DEFAULT` | `#e63946` | Primary accent (blood red) |
+| `ink.DEFAULT` | `#e8eaf0` | Primary text |
+| `ink.muted` | `#8b92a9` | Secondary text |
+
+Custom component classes: `.stat-card`, `.panel`, `.badge`, `.btn-primary`, `.btn-ghost`, `.data-table`, `.nav-item`, `.form-input`.
+
+---
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MIT © 2026 Bagmo Medical Logistics
