@@ -17,9 +17,9 @@
 
 ## Live Demo
 
-![Bagmo App Demo](public/demo/app-demo.webp)
-
 > *Full navigation through all 7 modules — recorded live from a running instance.*
+
+![Bagmo App Demo](public/demo/app-demo.gif)
 
 ---
 
