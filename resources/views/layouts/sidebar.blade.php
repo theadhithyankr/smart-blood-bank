@@ -1,68 +1,85 @@
-<div class="fixed inset-y-0 left-0 w-64 bg-white shadow-md z-20 flex flex-col hidden lg:flex">
-    <!-- Logo Area -->
-    <div class="h-16 flex items-center px-6 border-b border-slate-100">
-        <a href="{{ route('dashboard') }}" class="flex items-center">
-            <img src="{{ asset('images/bagmo-logo.png') }}" alt="Bagmo Logo" class="h-8">
-            <span class="ml-3 font-bold text-lg text-slate-800 tracking-tight">Bagmo Tracker</span>
+<aside class="fixed inset-y-0 left-0 w-60 bg-surface-card border-r border-surface-border z-30 flex flex-col hidden lg:flex select-none">
+    <!-- Brand -->
+    <div class="h-16 flex items-center px-5" style="border-bottom: 1px solid #252a3a;">
+        <a href="{{ route('dashboard') }}" class="flex items-center gap-2.5">
+            <div class="w-7 h-7 rounded-lg bg-brand flex items-center justify-center flex-shrink-0" style="box-shadow: 0 0 16px rgba(230,57,70,0.4);">
+                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            </div>
+            <div>
+                <div class="text-[13px] font-bold text-ink leading-none">Bagmo</div>
+                <div class="text-[10px] text-ink-faint font-medium tracking-wider leading-none mt-0.5">BLOOD TRACKER</div>
+            </div>
         </a>
     </div>
 
-    <!-- Navigation Links -->
-    <nav class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+    <!-- Nav -->
+    <nav class="flex-1 overflow-y-auto px-3 py-5 space-y-0.5">
+        <!-- Section Label -->
+        <div class="px-3 mb-3 text-[9px] font-bold uppercase tracking-[0.15em] text-ink-faint/60">Operations</div>
+
+        @php
+            $isDashboard  = request()->routeIs('dashboard');
+            $isDonor      = request()->routeIs('admin.donor-registration');
+            $isCollection = request()->routeIs('admin.blood-collection');
+            $isTesting    = request()->routeIs('admin.testing');
+            $isInventory  = request()->routeIs('admin.inventory');
+            $isDistrib    = request()->routeIs('admin.distribution');
+            $isTemp       = request()->routeIs('admin.temperature');
+        @endphp
+
         <!-- Dashboard -->
-        @php $isDashboard = request()->routeIs('dashboard'); @endphp
-        <a href="{{ route('dashboard') }}" class="flex items-center px-3 py-2.5 {{ $isDashboard ? 'bg-red-50 text-red-600 border-l-4 border-red-500' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }} rounded-lg group font-medium transition">
-            <!-- Icon: Grid (Dashboard) -->
-            <svg class="w-5 h-5 mr-3 {{ $isDashboard ? 'text-red-500' : 'text-slate-400 group-hover:text-slate-600' }} transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-            Dashboard
+        <a href="{{ route('dashboard') }}" class="nav-item {{ $isDashboard ? 'active' : '' }}">
+            <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+            Overview
         </a>
 
         <!-- Donor Registration -->
-        @php $isDonor = request()->routeIs('admin.donor-registration'); @endphp
-        <a href="{{ route('admin.donor-registration') }}" class="flex items-center px-3 py-2.5 {{ $isDonor ? 'bg-red-50 text-red-600 border-l-4 border-red-500' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }} rounded-lg group font-medium transition">
-            <!-- Icon: User Add -->
-            <svg class="w-5 h-5 mr-3 {{ $isDonor ? 'text-red-500' : 'text-slate-400 group-hover:text-slate-600' }} transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
-            Donor Registration
+        <a href="{{ route('admin.donor-registration') }}" class="nav-item {{ $isDonor ? 'active' : '' }}">
+            <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            Donor Registry
         </a>
 
         <!-- Blood Collection -->
-        @php $isCollection = request()->routeIs('admin.blood-collection'); @endphp
-        <a href="{{ route('admin.blood-collection') }}" class="flex items-center px-3 py-2.5 {{ $isCollection ? 'bg-red-50 text-red-600 border-l-4 border-red-500' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }} rounded-lg group font-medium transition">
-            <!-- Icon: Blood Drop Outline -->
-            <svg class="w-5 h-5 mr-3 {{ $isCollection ? 'text-red-500' : 'text-slate-400 group-hover:text-slate-600' }} transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path></svg>
-            Blood Collection
+        <a href="{{ route('admin.blood-collection') }}" class="nav-item {{ $isCollection ? 'active' : '' }}">
+            <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2C8.686 2 6 5.686 6 9.5 6 14.09 9.5 18.5 12 22c2.5-3.5 6-7.91 6-12.5C18 5.686 15.314 2 12 2z"/></svg>
+            Collection
         </a>
 
         <!-- Testing & Screening -->
-        @php $isTesting = request()->routeIs('admin.testing'); @endphp
-        <a href="{{ route('admin.testing') }}" class="flex items-center px-3 py-2.5 {{ $isTesting ? 'bg-red-50 text-red-600 border-l-4 border-red-500' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }} rounded-lg group font-medium transition">
-            <!-- Icon: Beaker (Testing) -->
-            <svg class="w-5 h-5 mr-3 {{ $isTesting ? 'text-red-500' : 'text-slate-400 group-hover:text-slate-600' }} transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
-            Testing & Screening
+        <a href="{{ route('admin.testing') }}" class="nav-item {{ $isTesting ? 'active' : '' }}">
+            <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3h6l1 7H8L9 3zM8 10l-3 11h14L16 10H8z"/></svg>
+            Screening Lab
         </a>
 
-        <!-- Inventory Management -->
-        @php $isInventory = request()->routeIs('admin.inventory'); @endphp
-        <a href="{{ route('admin.inventory') }}" class="flex items-center px-3 py-2.5 {{ $isInventory ? 'bg-red-50 text-red-600 border-l-4 border-red-500' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }} rounded-lg group font-medium transition">
-            <!-- Icon: Cube (Inventory) -->
-            <svg class="w-5 h-5 mr-3 {{ $isInventory ? 'text-red-500' : 'text-slate-400 group-hover:text-slate-600' }} transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
-            Inventory Management
+        <div class="px-3 pt-4 mb-3 text-[9px] font-bold uppercase tracking-[0.15em] text-ink-faint/60">Logistics</div>
+
+        <!-- Inventory -->
+        <a href="{{ route('admin.inventory') }}" class="nav-item {{ $isInventory ? 'active' : '' }}">
+            <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+            Inventory
         </a>
 
         <!-- Distribution -->
-        @php $isDistribution = request()->routeIs('admin.distribution'); @endphp
-        <a href="{{ route('admin.distribution') }}" class="flex items-center px-3 py-2.5 {{ $isDistribution ? 'bg-red-50 text-red-600 border-l-4 border-red-500' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }} rounded-lg group font-medium transition">
-            <!-- Icon: Truck (Distribution) -->
-            <svg class="w-5 h-5 mr-3 {{ $isDistribution ? 'text-red-500' : 'text-slate-400 group-hover:text-slate-600' }} transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+        <a href="{{ route('admin.distribution') }}" class="nav-item {{ $isDistrib ? 'active' : '' }}">
+            <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10l4 1m6-1l4-1m0 0V9a1 1 0 00-1-1h-2.5"/></svg>
             Distribution
         </a>
 
         <!-- Temperature -->
-        @php $isTemperature = request()->routeIs('admin.temperature'); @endphp
-        <a href="{{ route('admin.temperature') }}" class="flex items-center px-3 py-2.5 {{ $isTemperature ? 'bg-red-50 text-red-600 border-l-4 border-red-500' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }} rounded-lg group font-medium transition">
-            <!-- Icon: Thermometer -->
-            <svg class="w-5 h-5 mr-3 {{ $isTemperature ? 'text-red-500' : 'text-slate-400 group-hover:text-slate-600' }} transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-            Temperature
+        <a href="{{ route('admin.temperature') }}" class="nav-item {{ $isTemp ? 'active' : '' }}">
+            <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 9a3 3 0 114.146 2.77A1 1 0 0012 12.8V15m0 0v1m0-1a3 3 0 000 0"/><circle cx="12" cy="19" r="3"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v10"/></svg>
+            IoT Sensors
         </a>
     </nav>
-</div>
+
+    <!-- User footer -->
+    <div class="p-4" style="border-top: 1px solid #252a3a;">
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-ink-faint hover:bg-surface-raised hover:text-ink-muted transition group">
+                <svg class="w-4 h-4 text-ink-faint/60 group-hover:text-ink-faint transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                Sign Out
+            </button>
+        </form>
+    </div>
+</aside>

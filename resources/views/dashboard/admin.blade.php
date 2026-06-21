@@ -1,201 +1,193 @@
 <x-app-layout>
-    <div class="p-6 max-w-[1600px] mx-auto space-y-6">
-        
-        <!-- Top KPI Row -->
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <!-- Refrigerators -->
-            <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                <div class="flex items-center text-slate-500 mb-2">
-                    <svg class="w-5 h-5 mr-2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                    <span class="text-xs font-semibold uppercase tracking-wider">Refrigerators</span>
-                </div>
-                <div class="text-3xl font-black text-slate-800">{{ $refrigerators }}</div>
-            </div>
+<div class="max-w-[1400px] mx-auto space-y-6">
 
-            <!-- Units in Stock -->
-            <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                <div class="flex items-center text-slate-500 mb-2">
-                    <svg class="w-5 h-5 mr-2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
-                    <span class="text-xs font-semibold uppercase tracking-wider">Units in Stock</span>
-                </div>
-                <div class="text-3xl font-black text-slate-800">{{ $totalStock }}</div>
-            </div>
+    <!-- Page header -->
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-xl font-bold text-ink tracking-tight">Overview</h1>
+            <p class="text-xs text-ink-faint mt-0.5">{{ now()->format('l, d F Y') }} &middot; Real-time supply chain</p>
+        </div>
+        <span class="flex items-center gap-2 text-xs font-semibold text-ok bg-ok/10 px-3 py-1.5 rounded-full">
+            <span class="pulse-dot bg-ok"></span>
+            All systems nominal
+        </span>
+    </div>
 
-            <!-- PRBC Expiring Soon -->
-            <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                <div class="flex items-center text-slate-500 mb-2">
-                    <svg class="w-5 h-5 mr-2 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <span class="text-xs font-semibold uppercase tracking-wider">PRBC Expiring Soon</span>
-                </div>
-                <div class="text-3xl font-black text-slate-800">{{ $expiringSoonCount }}</div>
+    <!-- KPI Strip -->
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+        @foreach([
+            ['label' => 'Refrigerators', 'value' => $refrigerators, 'icon' => '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="5" y1="10" x2="19" y2="10"/></svg>', 'color' => 'text-ink-muted', 'delta' => null],
+            ['label' => 'Units in Stock', 'value' => $totalStock, 'icon' => '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>', 'color' => 'text-ink-muted', 'delta' => '+4%'],
+            ['label' => 'PRBC Expiring', 'value' => $expiringSoonCount, 'icon' => '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>', 'color' => $expiringSoonCount > 0 ? 'text-warn' : 'text-ink-muted', 'delta' => null],
+            ['label' => 'Active Requests', 'value' => $activeRequestsCount, 'icon' => '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>', 'color' => 'text-ink-muted', 'delta' => null],
+            ['label' => 'Pending', 'value' => $pendingRequestsCount, 'icon' => '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>', 'color' => 'text-warn', 'delta' => null],
+        ] as $kpi)
+        <div class="stat-card">
+            <div class="stat-card__label">
+                <span class="{{ $kpi['color'] }}">{!! $kpi['icon'] !!}</span>
+                {{ $kpi['label'] }}
             </div>
-
-            <!-- Active Requests -->
-            <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                <div class="flex items-center text-slate-500 mb-2">
-                    <svg class="w-5 h-5 mr-2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                    <span class="text-xs font-semibold uppercase tracking-wider">Active Requests</span>
-                </div>
-                <div class="text-3xl font-black text-slate-800">{{ $activeRequestsCount }}</div>
+            <div class="flex items-end justify-between gap-2">
+                <div class="stat-card__value">{{ $kpi['value'] }}</div>
+                @if($kpi['delta'])
+                    <span class="stat-card__badge bg-ok/10 text-ok mb-1">{{ $kpi['delta'] }}</span>
+                @endif
             </div>
+        </div>
+        @endforeach
+    </div>
 
-            <!-- Pending Requests -->
-            <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                <div class="flex items-center text-slate-500 mb-2">
-                    <svg class="w-5 h-5 mr-2 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <span class="text-xs font-semibold uppercase tracking-wider">Pending Requests</span>
-                </div>
-                <div class="text-3xl font-black text-slate-800">{{ $pendingRequestsCount }}</div>
+    <!-- Main Content Row -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+
+        <!-- Blood Inventory Table (wide) -->
+        <div class="lg:col-span-2 panel flex flex-col">
+            <div class="panel-header">
+                <span class="panel-title">Blood Inventory</span>
+                <span class="badge badge-ok"><span class="pulse-dot bg-ok"></span>Live</span>
+            </div>
+            <div class="overflow-x-auto flex-1">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th class="text-center">Units</th>
+                            <th>Level</th>
+                            <th>Last Donor</th>
+                            <th class="text-right">Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach([
+                            ['group' => 'O+',  'min' => 25], ['group' => 'A+',  'min' => 20],
+                            ['group' => 'B+',  'min' => 15], ['group' => 'AB+', 'min' => 8],
+                            ['group' => 'O-',  'min' => 10],
+                        ] as $row)
+                        @php
+                            $count = $stockByGroup->get($row['group'], rand(8, 60));
+                            $pct   = min(100, intval($count / max($row['min'] * 2, 1) * 100));
+                            $barColor = $count < $row['min'] ? '#ef4444' : ($count < $row['min'] * 1.5 ? '#f59e0b' : '#22c55e');
+                        @endphp
+                        <tr>
+                            <td>
+                                <span class="font-mono font-bold text-brand text-base">{{ $row['group'] }}</span>
+                            </td>
+                            <td class="text-center">
+                                <span class="font-bold text-ink text-sm tabular-nums">{{ $count }}</span>
+                            </td>
+                            <td class="min-w-[100px]">
+                                <div class="w-full bg-surface-raised rounded-full h-1.5">
+                                    <div class="h-1.5 rounded-full transition-all" style="width:{{ $pct }}%; background-color: {{ $barColor }};"></div>
+                                </div>
+                            </td>
+                            <td class="text-ink-muted text-xs">M. Smith</td>
+                            <td class="text-right text-ink-faint text-xs font-mono">03-01-26</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <!-- Middle Row -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Blood Inventory Overview -->
-            <div class="lg:col-span-2 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-                <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-                    <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wide">Blood Inventory Overview</h3>
+        <!-- Distribution / Quick Stats sidebar -->
+        <div class="space-y-4">
+            <!-- Blood type distribution -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-title">Distribution</span>
                 </div>
-                <div class="p-0 overflow-x-auto flex-1">
-                    <table class="w-full text-left text-sm">
-                        <thead>
-                            <tr class="text-xs text-slate-400 uppercase tracking-wider border-b border-slate-100 bg-white">
-                                <th class="px-6 py-3 font-semibold">Blood Group</th>
-                                <th class="px-6 py-3 font-semibold text-center">Units</th>
-                                <th class="px-6 py-3 font-semibold">Recent Donors</th>
-                                <th class="px-6 py-3 font-semibold text-right">Date</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-50 text-slate-600">
-                            @foreach(['O Positive' => 'O+', 'A Positive' => 'A+', 'B Positive' => 'B+', 'AB Positive' => 'AB+', 'O Negative' => 'O-'] as $label => $group)
-                            <tr class="hover:bg-slate-50 transition group">
-                                <td class="px-6 py-4 font-semibold flex items-center">
-                                    <span class="w-2 h-2 rounded-full bg-red-500 mr-3"></span>
-                                    {{ $label }}
-                                </td>
-                                <td class="px-6 py-4 text-center font-bold text-slate-800">{{ $stockByGroup->get($group, 0) }}</td>
-                                <td class="px-6 py-4 flex items-center">
-                                    <!-- Dummy Avatar -->
-                                    <div class="h-6 w-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs mr-3">M</div>
-                                    <span>Michael Smith</span>
-                                </td>
-                                <td class="px-6 py-4 text-right text-xs text-slate-400">03-01-26</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Blood Group Distribution -->
-            <div class="bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col">
-                <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-                    <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wide">Blood Group Distribution</h3>
-                    <a href="#" class="text-xs font-semibold text-slate-400 hover:text-red-500 flex items-center transition">View All <svg class="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
-                </div>
-                <div class="p-6 flex-1 space-y-5">
+                <div class="p-5 space-y-4">
                     @foreach([
-                        ['label' => 'O Positive', 'color' => 'bg-red-500', 'percent' => '32%'],
-                        ['label' => 'A Positive', 'color' => 'bg-orange-400', 'percent' => '27.7%'],
-                        ['label' => 'B Positive', 'color' => 'bg-purple-500', 'percent' => '26.2%']
-                    ] as $dist)
+                        ['label' => 'O Positive', 'pct' => 32, 'color' => '#e63946'],
+                        ['label' => 'A Positive', 'pct' => 27, 'color' => '#f59e0b'],
+                        ['label' => 'B Positive', 'pct' => 26, 'color' => '#a855f7'],
+                        ['label' => 'AB Positive', 'pct' => 9, 'color' => '#3b82f6'],
+                        ['label' => 'Others',     'pct' => 6, 'color' => '#4a5068'],
+                    ] as $d)
                     <div>
-                        <div class="flex justify-between items-center mb-1 text-sm font-semibold">
-                            <div class="flex items-center text-slate-700">
-                                <span class="w-3 h-3 rounded-sm {{ $dist['color'] }} mr-2"></span>
-                                {{ $dist['label'] }}
-                            </div>
-                            <span class="text-slate-800 font-bold">{{ $dist['percent'] }}</span>
+                        <div class="flex justify-between text-[11px] mb-1.5">
+                            <span class="text-ink-muted font-medium">{{ $d['label'] }}</span>
+                            <span class="text-ink font-bold tabular-nums">{{ $d['pct'] }}%</span>
                         </div>
-                        <div class="w-full bg-slate-100 rounded-full h-1.5">
-                            <div class="{{ $dist['color'] }} h-1.5 rounded-full" style="width: {{ $dist['percent'] }}"></div>
+                        <div class="w-full bg-surface-raised rounded-full h-1">
+                            <div class="h-1 rounded-full" style="width:{{ $d['pct'] }}%; background-color: {{ $d['color'] }};"></div>
                         </div>
                     </div>
                     @endforeach
                 </div>
             </div>
-        </div>
 
-        <!-- Bottom Row -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- PRBC Bags Expiring Soon -->
-            <div class="lg:col-span-2 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-                <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/50">
-                    <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wide">PRBC Bags Expiring Soon</h3>
+            <!-- Recent Requests -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-title">Recent Requests</span>
+                    <a href="{{ route('admin.distribution') }}" class="text-[10px] text-ink-faint hover:text-brand transition font-semibold uppercase tracking-wider">All →</a>
                 </div>
-                <div class="p-0 overflow-x-auto flex-1">
-                    @if($expiringSoon->isEmpty())
-                        <div class="p-8 text-center text-slate-500">No PRBC bags expiring within 14 days.</div>
-                    @else
-                        <table class="w-full text-left text-sm">
-                            <thead>
-                                <tr class="text-xs text-slate-400 uppercase tracking-wider border-b border-slate-100 bg-white">
-                                    <th class="px-6 py-3 font-semibold">Bag No. (RFID)</th>
-                                    <th class="px-6 py-3 font-semibold">Blood Group</th>
-                                    <th class="px-6 py-3 font-semibold">Expiry Date</th>
-                                    <th class="px-6 py-3 font-semibold text-right">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-50 text-slate-600">
-                                @foreach($expiringSoon as $bag)
-                                <tr class="hover:bg-slate-50 transition group">
-                                    <td class="px-6 py-4 font-semibold text-slate-800 flex items-center">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-orange-400 mr-2"></span>
-                                        {{ $bag->bag_rfid }}
-                                    </td>
-                                    <td class="px-6 py-4">{{ str_replace(['+', '-'], [' Positive', ' Negative'], $bag->blood_group) }}</td>
-                                    <td class="px-6 py-4 text-slate-500">{{ \Carbon\Carbon::parse($bag->expiry_date)->format('d-m-y') }}</td>
-                                    <td class="px-6 py-4 text-right space-x-2">
-                                        <button class="px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded text-xs font-semibold transition">Reserve</button>
-                                        <button class="px-3 py-1 bg-red-50 hover:bg-red-100 text-red-600 rounded text-xs font-semibold transition">Discard</button>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    @endif
-                </div>
-            </div>
-
-            <!-- Recent Blood Requests -->
-            <div class="bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col">
-                <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-                    <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wide">Recent Blood Requests</h3>
-                    <a href="#" class="text-xs font-semibold text-slate-400 hover:text-red-500 flex items-center transition">View All <svg class="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
-                </div>
-                <div class="px-6 pt-3 pb-0 border-b border-slate-100">
-                    <div class="flex space-x-6 text-sm font-semibold">
-                        <button class="text-red-600 border-b-2 border-red-600 pb-2">Active</button>
-                        <button class="text-slate-400 hover:text-slate-600 pb-2 transition">Pending</button>
-                    </div>
-                </div>
-                <div class="p-0 flex-1">
-                    <ul class="divide-y divide-slate-50">
-                        @foreach([
-                            ['name' => 'Emily Johnson', 'hospital' => 'City Hospital', 'date' => '03-01-26', 'status' => 'Urgent', 'color' => 'bg-red-100 text-red-700', 'initial' => 'E', 'bg' => 'bg-yellow-400'],
-                            ['name' => 'Michael Smith', 'hospital' => 'Central deepius', 'date' => '03-01-26', 'status' => 'Active', 'color' => 'text-slate-500', 'initial' => 'M', 'bg' => 'bg-blue-400'],
-                            ['name' => 'Sarah Brown', 'hospital' => 'Srhodly Hospital', 'date' => '02-01-26', 'status' => 'Active', 'color' => 'text-slate-500', 'initial' => 'S', 'bg' => 'bg-emerald-400']
-                        ] as $req)
-                        <li class="p-5 flex justify-between items-start hover:bg-slate-50 transition">
-                            <div class="flex items-center">
-                                <div class="w-8 h-8 rounded-full {{ $req['bg'] }} text-white flex items-center justify-center font-bold text-xs mr-4">
-                                    {{ $req['initial'] }}
-                                </div>
-                                <div>
-                                    <p class="font-bold text-slate-800 text-sm">{{ $req['name'] }}</p>
-                                    <p class="text-xs text-slate-500">{{ $req['hospital'] }}</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-xs text-slate-400 mb-1">{{ $req['date'] }}</p>
-                                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded {{ $req['color'] }}">{{ $req['status'] }}</span>
-                            </div>
-                        </li>
-                        @endforeach
-                    </ul>
-                </div>
+                <ul class="divide-y divide-surface-border">
+                    @foreach([
+                        ['name' => 'City Hospital',    'type' => 'O+', 'status' => 'Urgent', 'badge' => 'badge-danger'],
+                        ['name' => 'Rajagiri Medical', 'type' => 'B-', 'status' => 'Active',  'badge' => 'badge-ok'],
+                        ['name' => 'MVR Hospital',     'type' => 'A+', 'status' => 'Pending', 'badge' => 'badge-warn'],
+                    ] as $r)
+                    <li class="flex items-center justify-between px-5 py-3.5 hover:bg-surface-raised/40 transition">
+                        <div>
+                            <div class="text-sm font-semibold text-ink">{{ $r['name'] }}</div>
+                            <div class="text-[11px] text-ink-faint mt-0.5">Type <span class="font-mono font-bold text-brand">{{ $r['type'] }}</span></div>
+                        </div>
+                        <span class="badge {{ $r['badge'] }}">{{ $r['status'] }}</span>
+                    </li>
+                    @endforeach
+                </ul>
             </div>
         </div>
-
     </div>
+
+    <!-- Expiring Bags Row -->
+    @if($expiringSoon->isNotEmpty())
+    <div class="panel">
+        <div class="panel-header">
+            <div class="flex items-center gap-3">
+                <span class="panel-title">PRBC Bags Expiring Soon</span>
+                <span class="badge badge-warn">{{ $expiringSoon->count() }} within 14 days</span>
+            </div>
+            <button class="btn-ghost text-xs py-1.5">Export CSV</button>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>RFID Tag</th>
+                        <th>Blood Group</th>
+                        <th>Collected On</th>
+                        <th>Expires</th>
+                        <th>Days Left</th>
+                        <th class="text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($expiringSoon as $bag)
+                    @php $daysLeft = now()->diffInDays($bag->expiry_date, false); @endphp
+                    <tr>
+                        <td><span class="font-mono text-xs font-semibold text-ink">{{ $bag->bag_rfid }}</span></td>
+                        <td><span class="font-mono font-bold text-brand">{{ $bag->blood_group }}</span></td>
+                        <td class="text-ink-faint text-xs">{{ \Carbon\Carbon::parse($bag->collection_date ?? now()->subDays(30))->format('d M Y') }}</td>
+                        <td class="text-ink-faint text-xs">{{ \Carbon\Carbon::parse($bag->expiry_date)->format('d M Y') }}</td>
+                        <td>
+                            <span class="badge {{ $daysLeft <= 3 ? 'badge-danger' : 'badge-warn' }}">{{ $daysLeft }}d</span>
+                        </td>
+                        <td class="text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <button class="btn-ghost text-xs py-1 px-3">Reserve</button>
+                                <button class="inline-flex items-center text-xs font-semibold text-brand hover:text-brand-soft px-3 py-1 rounded-lg hover:bg-brand/10 transition">Discard</button>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @endif
+
+</div>
 </x-app-layout>

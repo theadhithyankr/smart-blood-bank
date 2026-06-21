@@ -1,110 +1,80 @@
 <x-app-layout>
-    <div class="p-6 max-w-[1600px] mx-auto space-y-6">
-        
-        <!-- Top KPI Row -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Tests Completed -->
-            <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                <div class="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Tests Completed</div>
-                <div class="flex justify-between items-end">
-                    <div class="text-4xl font-black text-slate-800">{{ $testsCompleted }}</div>
-                    <div class="text-sm font-bold text-emerald-500">+6%</div>
-                </div>
-            </div>
-
-            <!-- Pending Tests -->
-            <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                <div class="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Pending Tests</div>
-                <div class="flex justify-between items-end">
-                    <div class="text-4xl font-black text-slate-800">{{ $pendingTests }}</div>
-                    <div class="text-sm font-bold text-red-500">-3%</div>
-                </div>
-            </div>
-
-            <!-- Safe Units -->
-            <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                <div class="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Safe Units</div>
-                <div class="flex justify-between items-end">
-                    <div class="text-4xl font-black text-slate-800">{{ $safeUnits }}</div>
-                    <div class="text-sm font-bold text-emerald-500">+7%</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Test Results Table -->
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col mt-8">
-            <div class="px-6 py-5 border-b border-slate-100 bg-slate-50/50">
-                <h3 class="text-base font-bold text-slate-800">Test Results</h3>
-            </div>
-            <div class="p-0 overflow-x-auto">
-                <table class="w-full text-left text-sm">
-                    <thead>
-                        <tr class="text-[11px] text-slate-400 uppercase tracking-wider border-b border-slate-100 bg-white">
-                            <th class="px-6 py-4 font-semibold">Bag ID</th>
-                            <th class="px-6 py-4 font-semibold text-center">Blood Type</th>
-                            <th class="px-6 py-4 font-semibold text-center">HIV</th>
-                            <th class="px-6 py-4 font-semibold text-center">HBsAg</th>
-                            <th class="px-6 py-4 font-semibold text-center">HCV</th>
-                            <th class="px-6 py-4 font-semibold text-center">Syphilis</th>
-                            <th class="px-6 py-4 font-semibold">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-50 text-slate-600">
-                        @foreach([
-                            ['id' => 'BB2026001', 'type' => 'O+', 'hiv' => 'Negative', 'hbsag' => 'Negative', 'hcv' => 'Negative', 'syphilis' => 'Negative', 'status' => 'Safe', 'status_color' => 'bg-emerald-100 text-emerald-700'],
-                            ['id' => 'BB2026004', 'type' => 'B-', 'hiv' => 'Negative', 'hbsag' => 'Negative', 'hcv' => 'Negative', 'syphilis' => 'Negative', 'status' => 'Safe', 'status_color' => 'bg-emerald-100 text-emerald-700'],
-                            ['id' => 'BB2026005', 'type' => 'A+', 'hiv' => 'Pending', 'hbsag' => 'Negative', 'hcv' => 'Negative', 'syphilis' => 'Negative', 'status' => 'Testing', 'status_color' => 'bg-yellow-100 text-yellow-700']
-                        ] as $test)
-                        <tr class="hover:bg-slate-50 transition">
-                            <td class="px-6 py-5 font-bold text-slate-800">{{ $test['id'] }}</td>
-                            <td class="px-6 py-5 text-center font-bold text-red-500">{{ $test['type'] }}</td>
-                            
-                            <!-- HIV -->
-                            <td class="px-6 py-5 text-center">
-                                @if($test['hiv'] === 'Negative')
-                                    <span class="inline-flex items-center text-emerald-600 font-semibold text-[13px]"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Negative</span>
-                                @else
-                                    <span class="inline-flex items-center text-slate-400 font-semibold text-[13px]">Pending</span>
-                                @endif
-                            </td>
-                            
-                            <!-- HBsAg -->
-                            <td class="px-6 py-5 text-center">
-                                @if($test['hbsag'] === 'Negative')
-                                    <span class="inline-flex items-center text-emerald-600 font-semibold text-[13px]"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Negative</span>
-                                @else
-                                    <span class="inline-flex items-center text-slate-400 font-semibold text-[13px]">Pending</span>
-                                @endif
-                            </td>
-
-                            <!-- HCV -->
-                            <td class="px-6 py-5 text-center">
-                                @if($test['hcv'] === 'Negative')
-                                    <span class="inline-flex items-center text-emerald-600 font-semibold text-[13px]"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Negative</span>
-                                @else
-                                    <span class="inline-flex items-center text-slate-400 font-semibold text-[13px]">Pending</span>
-                                @endif
-                            </td>
-
-                            <!-- Syphilis -->
-                            <td class="px-6 py-5 text-center">
-                                @if($test['syphilis'] === 'Negative')
-                                    <span class="inline-flex items-center text-emerald-600 font-semibold text-[13px]"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Negative</span>
-                                @else
-                                    <span class="inline-flex items-center text-slate-400 font-semibold text-[13px]">Pending</span>
-                                @endif
-                            </td>
-
-                            <!-- Status -->
-                            <td class="px-6 py-5">
-                                <span class="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide rounded-full {{ $test['status_color'] }}">{{ $test['status'] }}</span>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
+<div class="max-w-[1400px] mx-auto space-y-6">
+    <div>
+        <h1 class="text-xl font-bold text-ink">Screening Lab</h1>
+        <p class="text-xs text-ink-faint mt-0.5">Pathogen testing and serological results</p>
     </div>
+
+    <!-- KPIs -->
+    <div class="grid grid-cols-3 gap-4">
+        <div class="stat-card">
+            <div class="stat-card__label">Completed Today</div>
+            <div class="flex items-end gap-3">
+                <div class="stat-card__value">{{ $testsCompleted }}</div>
+                <span class="stat-card__badge bg-ok/10 text-ok mb-1">+6%</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-card__label text-warn">Pending</div>
+            <div class="stat-card__value text-warn">{{ $pendingTests }}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-card__label text-ok">Safe Cleared</div>
+            <div class="stat-card__value">{{ $safeUnits }}</div>
+        </div>
+    </div>
+
+    <!-- Results Table -->
+    <div class="panel">
+        <div class="panel-header">
+            <span class="panel-title">Test Results — Today's Batches</span>
+            <div class="flex items-center gap-2">
+                <span class="badge badge-ok">{{ $safeUnits }} Safe</span>
+                <span class="badge badge-warn">{{ $pendingTests }} Pending</span>
+            </div>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Bag ID</th>
+                        <th class="text-center">Type</th>
+                        <th class="text-center">HIV</th>
+                        <th class="text-center">HBsAg</th>
+                        <th class="text-center">HCV</th>
+                        <th class="text-center">Syphilis</th>
+                        <th class="text-center">Malaria</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach([
+                        ['id' => 'BB2026001', 'type' => 'O+',  'results' => ['N','N','N','N','N'], 'status' => 'Cleared',  'badge' => 'badge-ok'],
+                        ['id' => 'BB2026004', 'type' => 'B-',  'results' => ['N','N','N','N','N'], 'status' => 'Cleared',  'badge' => 'badge-ok'],
+                        ['id' => 'BB2026005', 'type' => 'A+',  'results' => ['P','N','N','N','N'], 'status' => 'Testing',  'badge' => 'badge-warn'],
+                        ['id' => 'BB2026008', 'type' => 'AB-', 'results' => ['N','N','N','N','N'], 'status' => 'Cleared',  'badge' => 'badge-ok'],
+                        ['id' => 'BB2026011', 'type' => 'O-',  'results' => ['N','P','N','N','N'], 'status' => 'Rejected', 'badge' => 'badge-danger'],
+                    ] as $t)
+                    <tr>
+                        <td><span class="font-mono text-xs font-semibold text-ink">{{ $t['id'] }}</span></td>
+                        <td class="text-center"><span class="font-mono font-bold text-brand">{{ $t['type'] }}</span></td>
+                        @foreach($t['results'] as $r)
+                        <td class="text-center">
+                            @if($r === 'N')
+                                <svg class="w-4 h-4 text-ok mx-auto" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                            @elseif($r === 'P')
+                                <svg class="w-4 h-4 text-danger mx-auto" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                            @else
+                                <span class="text-ink-faint text-xs">—</span>
+                            @endif
+                        </td>
+                        @endforeach
+                        <td><span class="badge {{ $t['badge'] }}">{{ $t['status'] }}</span></td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 </x-app-layout>

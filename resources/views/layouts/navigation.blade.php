@@ -1,67 +1,49 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-slate-100 h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8 z-10 sticky top-0">
-    
-    <!-- Mobile Hamburger & Title -->
-    <div class="flex items-center lg:hidden">
-        <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-slate-500 hover:bg-slate-100 focus:outline-none focus:bg-slate-100 focus:text-slate-500 transition duration-150 ease-in-out">
-            <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-        </button>
-        <img src="{{ asset('images/bagmo-logo.png') }}" alt="Bagmo" class="h-6 ml-3">
+<header class="h-14 flex items-center justify-between px-5 sticky top-0 z-20 bg-surface-card/80 backdrop-blur-md" style="border-bottom: 1px solid #252a3a;">
+    <!-- Mobile logo -->
+    <div class="flex items-center gap-3 lg:hidden">
+        <div class="w-6 h-6 rounded-md bg-brand flex items-center justify-center">
+            <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </div>
+        <span class="text-sm font-bold text-ink">Bagmo</span>
     </div>
 
-    <!-- Search Bar (Hidden on small screens) -->
-    <div class="hidden lg:flex flex-1 items-center max-w-md ml-4">
+    <!-- Search -->
+    <div class="hidden lg:flex flex-1 max-w-sm">
         <div class="relative w-full">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-            </div>
-            <input type="text" class="block w-full pl-10 pr-3 py-2 border border-slate-200 rounded-lg leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-1 focus:ring-red-500 focus:border-red-500 sm:text-sm transition" placeholder="Search...">
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-faint" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <input type="text" placeholder="Search bags, donors…" class="w-full bg-surface-raised border border-surface-border text-ink text-sm rounded-xl pl-9 pr-4 py-2 placeholder-ink-faint focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand/40 transition">
         </div>
     </div>
 
-    <!-- Right Actions -->
-    <div class="flex items-center space-x-4">
-        <!-- Notifications -->
-        <button class="p-2 text-slate-400 hover:text-slate-500 relative transition">
-            <span class="absolute top-1.5 right-1.5 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+    <!-- Right -->
+    <div class="flex items-center gap-2">
+        <!-- Notification -->
+        <button class="relative p-2 rounded-xl text-ink-faint hover:bg-surface-raised hover:text-ink-muted transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+            <span class="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-brand"></span>
         </button>
 
-        <!-- Profile Dropdown -->
-        <div class="ml-3 relative">
-            <x-dropdown align="right" width="48">
-                <x-slot name="trigger">
-                    <button class="flex items-center text-sm font-medium text-slate-500 hover:text-slate-700 focus:outline-none transition ease-in-out duration-150 bg-slate-50 px-3 py-2 rounded-lg border border-slate-100">
-                        <!-- Avatar placeholder -->
-                        <div class="h-6 w-6 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold text-xs mr-2">
-                            {{ substr(Auth::user()->name, 0, 1) }}
-                        </div>
-                        <div>{{ Auth::user()->name }}</div>
-                        <div class="ml-1">
-                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                    </button>
-                </x-slot>
+        <!-- Divider -->
+        <div class="w-px h-6 bg-surface-border mx-1"></div>
 
-                <x-slot name="content">
-                    <x-dropdown-link :href="route('profile.edit')">
-                        {{ __('Profile') }}
-                    </x-dropdown-link>
-
-                    <!-- Authentication -->
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <x-dropdown-link :href="route('logout')"
-                                onclick="event.preventDefault();
-                                            this.closest('form').submit();">
-                            {{ __('Log Out') }}
-                        </x-dropdown-link>
-                    </form>
-                </x-slot>
-            </x-dropdown>
-        </div>
+        <!-- Profile -->
+        <x-dropdown align="right" width="48">
+            <x-slot name="trigger">
+                <button class="flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl hover:bg-surface-raised transition">
+                    <div class="w-7 h-7 rounded-lg bg-brand/20 border border-brand/30 flex items-center justify-center text-brand font-bold text-xs">
+                        {{ substr(Auth::user()->name, 0, 1) }}
+                    </div>
+                    <span class="text-sm font-medium text-ink-muted hidden sm:block">{{ Auth::user()->name }}</span>
+                    <svg class="w-3.5 h-3.5 text-ink-faint" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+            </x-slot>
+            <x-slot name="content">
+                <x-dropdown-link :href="route('profile.edit')">Profile</x-dropdown-link>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">Sign Out</x-dropdown-link>
+                </form>
+            </x-slot>
+        </x-dropdown>
     </div>
-</nav>
+</header>

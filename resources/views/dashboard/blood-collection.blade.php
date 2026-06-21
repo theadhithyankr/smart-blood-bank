@@ -1,77 +1,73 @@
 <x-app-layout>
-    <div class="p-6 max-w-[1600px] mx-auto space-y-6">
-        
-        <!-- Top KPI Row -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Active Camps -->
-            <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                <div class="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Active Collection Camps</div>
-                <div class="flex justify-between items-end">
-                    <div class="text-4xl font-black text-slate-800">{{ $activeCamps }}</div>
-                </div>
-            </div>
-
-            <!-- Donors Today -->
-            <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                <div class="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Total Donors Today</div>
-                <div class="flex justify-between items-end">
-                    <div class="text-4xl font-black text-slate-800">{{ $donorsToday }}</div>
-                    <div class="text-sm font-bold text-emerald-500">+12%</div>
-                </div>
-            </div>
-
-            <!-- Bags Collected -->
-            <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                <div class="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Bags Collected</div>
-                <div class="flex justify-between items-end">
-                    <div class="text-4xl font-black text-slate-800">{{ $bagsCollected }}</div>
-                    <div class="text-sm font-bold text-emerald-500">+14%</div>
-                </div>
-            </div>
+<div class="max-w-[1400px] mx-auto space-y-6">
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-xl font-bold text-ink">Collection</h1>
+            <p class="text-xs text-ink-faint mt-0.5">Ongoing collection sessions &amp; drives</p>
         </div>
-
-        <!-- Ongoing Collections Table -->
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col mt-8">
-            <div class="px-6 py-5 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
-                <h3 class="text-base font-bold text-slate-800">Ongoing Blood Collections</h3>
-                <button class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-lg shadow-sm transition flex items-center">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                    Start New Collection
-                </button>
-            </div>
-            <div class="p-0 overflow-x-auto">
-                <table class="w-full text-left text-sm">
-                    <thead>
-                        <tr class="text-[11px] text-slate-400 uppercase tracking-wider border-b border-slate-100 bg-white">
-                            <th class="px-6 py-4 font-semibold">Donor Name</th>
-                            <th class="px-6 py-4 font-semibold text-center">Blood Type</th>
-                            <th class="px-6 py-4 font-semibold text-center">RFID Tag Assigned</th>
-                            <th class="px-6 py-4 font-semibold">Start Time</th>
-                            <th class="px-6 py-4 font-semibold">Location</th>
-                            <th class="px-6 py-4 font-semibold">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-50 text-slate-600">
-                        @foreach([
-                            ['name' => 'Rahul Sharma', 'type' => 'O+', 'rfid' => 'BB2026101', 'time' => '10:15 AM', 'location' => 'In-House Center', 'status' => 'In Progress', 'status_color' => 'bg-blue-100 text-blue-700'],
-                            ['name' => 'Anita Desai', 'type' => 'A-', 'rfid' => 'BB2026102', 'time' => '10:30 AM', 'location' => 'In-House Center', 'status' => 'Completed', 'status_color' => 'bg-emerald-100 text-emerald-700'],
-                            ['name' => 'Karan Patel', 'type' => 'B+', 'rfid' => 'BB2026103', 'time' => '11:00 AM', 'location' => 'City Mall Camp', 'status' => 'Drawing', 'status_color' => 'bg-yellow-100 text-yellow-700']
-                        ] as $col)
-                        <tr class="hover:bg-slate-50 transition">
-                            <td class="px-6 py-5 font-bold text-slate-800">{{ $col['name'] }}</td>
-                            <td class="px-6 py-5 text-center font-bold text-red-500">{{ $col['type'] }}</td>
-                            <td class="px-6 py-5 text-center font-mono text-xs font-semibold text-slate-500">{{ $col['rfid'] }}</td>
-                            <td class="px-6 py-5 text-slate-500">{{ $col['time'] }}</td>
-                            <td class="px-6 py-5 text-slate-600">{{ $col['location'] }}</td>
-                            <td class="px-6 py-5">
-                                <span class="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide rounded-full {{ $col['status_color'] }}">{{ $col['status'] }}</span>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
+        <button class="btn-primary">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+            Start Collection
+        </button>
     </div>
+
+    <div class="grid grid-cols-3 gap-4">
+        <div class="stat-card">
+            <div class="stat-card__label">Active Camps</div>
+            <div class="stat-card__value">{{ $activeCamps }}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-card__label">Donors Today</div>
+            <div class="flex items-end gap-3">
+                <div class="stat-card__value">{{ $donorsToday }}</div>
+                <span class="stat-card__badge bg-ok/10 text-ok mb-1">+12%</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-card__label">Bags Collected</div>
+            <div class="stat-card__value">{{ $bagsCollected }}</div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-header">
+            <span class="panel-title">Active Sessions</span>
+            <span class="badge badge-ok"><span class="pulse-dot bg-ok"></span>Live</span>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Donor</th>
+                        <th class="text-center">Type</th>
+                        <th class="font-mono text-center">RFID</th>
+                        <th>Started</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                        <th class="text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach([
+                        ['name'=>'Rahul Sharma','type'=>'O+', 'rfid'=>'BB2026101','time'=>'10:15 AM','loc'=>'In-House Center','status'=>'In Progress','badge'=>'badge-info'],
+                        ['name'=>'Anita Desai', 'type'=>'A-', 'rfid'=>'BB2026102','time'=>'10:30 AM','loc'=>'In-House Center','status'=>'Completed',  'badge'=>'badge-ok'],
+                        ['name'=>'Karan Patel', 'type'=>'B+', 'rfid'=>'BB2026103','time'=>'11:00 AM','loc'=>'City Mall Camp', 'status'=>'Drawing',    'badge'=>'badge-warn'],
+                    ] as $c)
+                    <tr>
+                        <td class="font-semibold text-ink text-sm">{{ $c['name'] }}</td>
+                        <td class="text-center"><span class="font-mono font-bold text-brand">{{ $c['type'] }}</span></td>
+                        <td class="text-center"><span class="font-mono text-xs text-ink-faint">{{ $c['rfid'] }}</span></td>
+                        <td class="text-ink-faint text-xs font-mono">{{ $c['time'] }}</td>
+                        <td class="text-ink-muted text-sm">{{ $c['loc'] }}</td>
+                        <td><span class="badge {{ $c['badge'] }}">{{ $c['status'] }}</span></td>
+                        <td class="text-right">
+                            <button class="btn-ghost text-xs py-1 px-3">Details</button>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 </x-app-layout>

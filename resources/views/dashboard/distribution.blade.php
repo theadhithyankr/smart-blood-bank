@@ -1,78 +1,81 @@
 <x-app-layout>
-    <div class="p-6 max-w-[1600px] mx-auto space-y-6">
-        
-        <!-- Top KPI Row -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Issued Today -->
-            <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                <div class="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Issued Today</div>
-                <div class="flex justify-between items-end">
-                    <div class="text-4xl font-black text-slate-800">{{ $issuedToday }}</div>
-                    <div class="text-sm font-bold text-emerald-500">+9%</div>
-                </div>
-            </div>
-
-            <!-- Pending Requests -->
-            <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                <div class="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Pending Requests</div>
-                <div class="flex justify-between items-end">
-                    <div class="text-4xl font-black text-slate-800">{{ $pendingRequests }}</div>
-                    <div class="text-sm font-bold text-red-500">-5%</div>
-                </div>
-            </div>
-
-            <!-- Total This Month -->
-            <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                <div class="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Total This Month</div>
-                <div class="flex justify-between items-end">
-                    <div class="text-4xl font-black text-slate-800">{{ $totalThisMonth }}</div>
-                    <div class="text-sm font-bold text-emerald-500">+11%</div>
-                </div>
-            </div>
+<div class="max-w-[1400px] mx-auto space-y-6">
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-xl font-bold text-ink">Distribution</h1>
+            <p class="text-xs text-ink-faint mt-0.5">Dispatch and fulfilment tracking</p>
         </div>
-
-        <!-- Distribution Requests Table -->
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col mt-8">
-            <div class="px-6 py-5 border-b border-slate-100 bg-slate-50/50">
-                <h3 class="text-base font-bold text-slate-800">Distribution Requests</h3>
-            </div>
-            <div class="p-0 overflow-x-auto">
-                <table class="w-full text-left text-sm">
-                    <thead>
-                        <tr class="text-[11px] text-slate-400 uppercase tracking-wider border-b border-slate-100 bg-white">
-                            <th class="px-6 py-4 font-semibold">Request ID</th>
-                            <th class="px-6 py-4 font-semibold">Hospital</th>
-                            <th class="px-6 py-4 font-semibold text-center">Blood Type</th>
-                            <th class="px-6 py-4 font-semibold text-center">Units</th>
-                            <th class="px-6 py-4 font-semibold text-center">Urgency</th>
-                            <th class="px-6 py-4 font-semibold">Time</th>
-                            <th class="px-6 py-4 font-semibold">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-50 text-slate-600">
-                        @foreach([
-                            ['id' => 'REQ001', 'hospital' => 'Bagmo Hospital', 'type' => 'O+', 'units' => 3, 'urgency' => 'High', 'urgency_color' => 'text-orange-500 bg-orange-50', 'time' => '09:45 AM', 'status' => 'Processing', 'status_color' => 'bg-yellow-100 text-yellow-700'],
-                            ['id' => 'REQ002', 'hospital' => 'Rajagiri Hospital', 'type' => 'B-', 'units' => 2, 'urgency' => 'Critical', 'urgency_color' => 'text-red-600 bg-red-50', 'time' => '10:20 AM', 'status' => 'Approved', 'status_color' => 'bg-blue-100 text-blue-700'],
-                            ['id' => 'REQ003', 'hospital' => 'MVR Hospital', 'type' => 'A+', 'units' => 4, 'urgency' => 'Normal', 'urgency_color' => 'text-blue-500 bg-blue-50', 'time' => '11:00 AM', 'status' => 'Dispatched', 'status_color' => 'bg-emerald-100 text-emerald-700']
-                        ] as $req)
-                        <tr class="hover:bg-slate-50 transition">
-                            <td class="px-6 py-5 font-bold text-slate-800">{{ $req['id'] }}</td>
-                            <td class="px-6 py-5 font-medium text-slate-600">{{ $req['hospital'] }}</td>
-                            <td class="px-6 py-5 text-center font-bold text-red-500">{{ $req['type'] }}</td>
-                            <td class="px-6 py-5 text-center font-semibold text-slate-700">{{ $req['units'] }}</td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="px-2.5 py-1 text-xs font-bold rounded {{ $req['urgency_color'] }}">{{ $req['urgency'] }}</span>
-                            </td>
-                            <td class="px-6 py-5 text-slate-500">{{ $req['time'] }}</td>
-                            <td class="px-6 py-5">
-                                <span class="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide rounded-full {{ $req['status_color'] }}">{{ $req['status'] }}</span>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
+        <button class="btn-primary">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+            New Dispatch
+        </button>
     </div>
+
+    <!-- KPIs -->
+    <div class="grid grid-cols-3 gap-4">
+        <div class="stat-card">
+            <div class="stat-card__label">Issued Today</div>
+            <div class="flex items-end gap-3">
+                <div class="stat-card__value">{{ $issuedToday }}</div>
+                <span class="stat-card__badge bg-ok/10 text-ok mb-1">+9%</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-card__label text-warn">Pending</div>
+            <div class="stat-card__value text-warn">{{ $pendingRequests }}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-card__label">This Month</div>
+            <div class="stat-card__value">{{ $totalThisMonth }}</div>
+        </div>
+    </div>
+
+    <!-- Requests Table -->
+    <div class="panel">
+        <div class="panel-header">
+            <span class="panel-title">Dispatch Requests</span>
+            <div class="flex gap-2">
+                <button class="text-[10px] font-bold text-brand border-b border-brand pb-0.5">Active</button>
+                <button class="text-[10px] font-bold text-ink-faint hover:text-ink-muted transition">History</button>
+            </div>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Hospital</th>
+                        <th class="text-center">Type</th>
+                        <th class="text-center">Units</th>
+                        <th>Urgency</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                        <th class="text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach([
+                        ['id'=>'REQ-001','hospital'=>'Bagmo Hospital',   'type'=>'O+','units'=>3,'urgency'=>'High',    'ub'=>'badge-warn',  'time'=>'09:45 AM','status'=>'Processing','sb'=>'badge-info'],
+                        ['id'=>'REQ-002','hospital'=>'Rajagiri Medical', 'type'=>'B-','units'=>2,'urgency'=>'Critical','ub'=>'badge-danger','time'=>'10:20 AM','status'=>'Approved',  'sb'=>'badge-ok'],
+                        ['id'=>'REQ-003','hospital'=>'MVR Hospital',     'type'=>'A+','units'=>4,'urgency'=>'Normal',  'ub'=>'badge-muted', 'time'=>'11:00 AM','status'=>'Dispatched','sb'=>'badge-ok'],
+                        ['id'=>'REQ-004','hospital'=>'PVS Hospital',     'type'=>'AB+','units'=>1,'urgency'=>'High',   'ub'=>'badge-warn',  'time'=>'11:45 AM','status'=>'Pending',   'sb'=>'badge-warn'],
+                    ] as $req)
+                    <tr>
+                        <td><span class="font-mono text-xs font-semibold text-ink">{{ $req['id'] }}</span></td>
+                        <td class="text-ink font-medium text-sm">{{ $req['hospital'] }}</td>
+                        <td class="text-center"><span class="font-mono font-bold text-brand">{{ $req['type'] }}</span></td>
+                        <td class="text-center text-ink font-semibold tabular-nums">{{ $req['units'] }}</td>
+                        <td><span class="badge {{ $req['ub'] }}">{{ $req['urgency'] }}</span></td>
+                        <td class="text-ink-faint text-xs font-mono">{{ $req['time'] }}</td>
+                        <td><span class="badge {{ $req['sb'] }}">{{ $req['status'] }}</span></td>
+                        <td class="text-right">
+                            <button class="btn-ghost text-xs py-1 px-3">View</button>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 </x-app-layout>
